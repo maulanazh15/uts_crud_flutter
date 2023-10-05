@@ -54,7 +54,7 @@ class DatabaseHelper {
         where: 'id = ?', whereArgs: [data.id]);
   }
 
-  Future<int> deleteData(int id) async {
+  Future<int> deleteData(int ?id) async {
     Database db = await database;
     return await db.delete('my_table', where: 'id = ?', whereArgs: [id]);
   }
