@@ -1,11 +1,11 @@
 class MyData {
   int ? id;
-  String name;
-  String email;
+  String nama_makanan;
+  String resep_makanan;
 
-  MyData({this.id, required this.name, required this.email});
+  MyData({this.id, required this.nama_makanan, required this.resep_makanan});
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'name': name, 'email': email};
+    return {'id': id, 'nama_makanan': nama_makanan, 'resep_makanan': resep_makanan};
   }
 }

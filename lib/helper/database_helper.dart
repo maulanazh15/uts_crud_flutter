@@ -17,45 +17,45 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'my_database.db');
-    return await openDatabase(path, version: 1, onCreate: _createDatabase);
+    String path = join(await getDatabasesPath(), 'my_database1.db');
+    return await openDatabase(path, version: 2, onCreate: _createDatabase);
   }
 
   Future<void> _createDatabase(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE my_table (
+      CREATE TABLE resep_makanan (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        email TEXT
+        nama_makanan TEXT,
+        resep_makanan TEXT
       )
     ''');
   }
 
   Future<int> insertData(MyData data) async {
     Database db = await database;
-    return await db.insert('my_table', data.toMap());
+    return await db.insert('resep_makanan', data.toMap());
   }
 
   Future<List<MyData>> getData() async {
     Database db = await database;
-    List<Map<String, dynamic>> maps = await db.query('my_table');
+    List<Map<String, dynamic>> maps = await db.query('resep_makanan');
     return List.generate(maps.length, (index) {
       return MyData(
         id: maps[index]['id'],
-        name: maps[index]['name'],
-        email: maps[index]['email'],
+        nama_makanan: maps[index]['nama_makanan'],
+        resep_makanan: maps[index]['resep_makanan'],
       );
     });
   }
 
   Future<int> updateData(MyData data) async {
     Database db = await database;
-    return await db.update('my_table', data.toMap(),
+    return await db.update('resep_makanan', data.toMap(),
         where: 'id = ?', whereArgs: [data.id]);
   }
 
   Future<int> deleteData(int ?id) async {
     Database db = await database;
-    return await db.delete('my_table', where: 'id = ?', whereArgs: [id]);
+    return await db.delete('resep_makanan', where: 'id = ?', whereArgs: [id]);
   }
 }

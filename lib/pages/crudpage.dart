@@ -9,16 +9,16 @@ class CrudPage extends StatefulWidget {
 
 class _CrudPageState extends State<CrudPage> {
   // Di dalam _CrudPageState
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
+  final namaMakananController = TextEditingController();
+  final resepMakananController = TextEditingController();
 
   // Fungsi untuk menambahkan data
   Future<void> addData() async {
-    final name = nameController.text;
-    final email = emailController.text;
+    final nama_makanan = namaMakananController.text;
+    final resep_makanan = resepMakananController.text;
 
-    if (name.isNotEmpty && email.isNotEmpty) {
-      final data = MyData(name: name, email: email);
+    if (nama_makanan.isNotEmpty && resep_makanan.isNotEmpty) {
+      final data = MyData(nama_makanan: nama_makanan, resep_makanan: resep_makanan);
       await DatabaseHelper.instance.insertData(data);
       // Refresh UI to show updated data
       setState(() {});
@@ -34,29 +34,31 @@ class _CrudPageState extends State<CrudPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CRUD Page'),
+        title: Text('CRUD Resep Makanan'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              controller: namaMakananController,
+              decoration: InputDecoration(labelText: 'Nama Makanan'),
             ),
             TextFormField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              controller: resepMakananController,
+              decoration: InputDecoration(labelText: 'Resep Makanan'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: addData,
-              child: Text('Add Data'),
+              child: Text('Tambah Resep Baru'),
             ),
             SizedBox(height: 20),
+            Center(child: Text("List Resep Makanan"),),
+            SizedBox(height: 20,),
             Container(
-              height: 125,
-              decoration: BoxDecoration(border: Border.all(color: Colors.black12)),
+              height: 200,
+              decoration: BoxDecoration(border: Border.all(color: Colors.black12), borderRadius: BorderRadius.circular(4)),
               child: FutureBuilder(
                 future: getData(),
                 builder: (context, snapshot) {
@@ -74,8 +76,8 @@ class _CrudPageState extends State<CrudPage> {
                       itemBuilder: (context, index) {
                         final data = dataList[index];
                         return ListTile(
-                          title: Text(data.name),
-                          subtitle: Text(data.email),
+                          title: Text(data.nama_makanan),
+                          subtitle: Text(data.resep_makanan),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -85,25 +87,25 @@ class _CrudPageState extends State<CrudPage> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      final nameController =
-                                          TextEditingController(text: data.name);
-                                      final emailController =
-                                          TextEditingController(text: data.email);
+                                      final namaMakananController =
+                                          TextEditingController(text: data.nama_makanan);
+                                      final resepMakananController =
+                                          TextEditingController(text: data.resep_makanan);
             
                                       return AlertDialog(
-                                        title: Text('Edit Data'),
+                                        title: Text('Edit Data Resep Makanan'),
                                         content: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             TextFormField(
-                                              controller: nameController,
+                                              controller: namaMakananController,
                                               decoration: InputDecoration(
-                                                  labelText: 'Name'),
+                                                  labelText: 'Nama Makanan'),
                                             ),
                                             TextFormField(
-                                              controller: emailController,
+                                              controller: resepMakananController,
                                               decoration: InputDecoration(
-                                                  labelText: 'Email'),
+                                                  labelText: 'Resep Makanan'),
                                             ),
                                           ],
                                         ),
@@ -111,16 +113,16 @@ class _CrudPageState extends State<CrudPage> {
                                           ElevatedButton(
                                             onPressed: () async {
                                               // Ambil nilai yang diubah dari TextEditingController
-                                              final newName = nameController.text;
-                                              final newEmail =
-                                                  emailController.text;
+                                              final newNamaMakanan = namaMakananController.text;
+                                              final newResepMakanan =
+                                                  resepMakananController.text;
             
                                               // Buat objek MyData baru dengan perubahan
                                               final updatedData = MyData(
                                                 id: data
                                                     .id, // Pastikan untuk menyertakan ID
-                                                name: newName,
-                                                email: newEmail,
+                                                nama_makanan: newNamaMakanan,
+                                                resep_makanan: newResepMakanan,
                                               );
             
                                               // Implementasi untuk menyimpan perubahan ke database
